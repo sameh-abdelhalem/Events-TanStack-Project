@@ -42,6 +42,8 @@ export default function EventDetails() {
   const deleteEventHandler = () => {
     setIsDeleting(true);
   };
+
+  let content;
   return (
     <>
       {isDeleting && (
@@ -68,17 +70,14 @@ export default function EventDetails() {
           )}
         </Modal>
       )}
-
       <Outlet />
       <Header>
         <Link to="/events" className="nav-item">
           View all Events
         </Link>
       </Header>
-
-      {isPending ? (
-        <LoadingIndicator />
-      ) : (
+      {isPending && <LoadingIndicator />}
+      {data && (
         <article id="event-details">
           <header>
             <h1>{data.title}</h1>
