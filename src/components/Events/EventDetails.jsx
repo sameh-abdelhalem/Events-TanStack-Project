@@ -5,12 +5,15 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteEvent, fetchEvent } from "../../util/http.js";
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
+import { useState } from "react";
+import Modal from "../UI/Modal.jsx";
 
 export default function EventDetails() {
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["event-details"],
+    queryKey: ["events", params.id],
     queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
   });
 
@@ -18,15 +21,42 @@ export default function EventDetails() {
     mutationFn: deleteEvent,
     onSuccess: () => {
       navigate("/events");
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+        refetchType: "none",
+      });
     },
   });
-
+  const handleStartDelete = () => {
+    setIsDeleting(true);
+    mutate({ id: params.id });
+  };
+  const handleStopDelete = () => {
+    setIsDeleting(false);
+  };
   const deleteEventHandler = () => {
-    mutate({ id: data.id });
+    setIsDeleting(true);
   };
   return (
     <>
+      {isDeleting && (
+        <Modal onClose={handleStopDelete}>
+          <h2>Are you sure?</h2>
+          <p>
+            Do you really want to delete this event? this action cannot be
+            undone.
+          </p>
+          <div className="form-actions">
+            <button onClick={handleStopDelete} className="button-text">
+              Cancel
+            </button>
+            <button onClick={handleStartDelete} className="button">
+              Delete
+            </button>
+          </div>
+        </Modal>
+      )}
+
       <Outlet />
       <Header>
         <Link to="/events" className="nav-item">
