@@ -17,7 +17,12 @@ export default function EventDetails() {
     queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
   });
 
-  const { mutate } = useMutation({
+  const {
+    mutate,
+    isPending: isPendingDeletion,
+    isError: isErrorDeleting,
+    error: deleteError,
+  } = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
       navigate("/events");
@@ -54,6 +59,13 @@ export default function EventDetails() {
               Delete
             </button>
           </div>
+          {isPendingDeletion && <p>event is being deleted...</p>}
+          {isErrorDeleting && (
+            <ErrorBlock
+              title={"an error has occured"}
+              message={deleteError.info?.message || "could not delete event"}
+            />
+          )}
         </Modal>
       )}
 
