@@ -4,7 +4,7 @@ export const queryClient = new QueryClient();
 
 export async function fetchEvents({ signal, searchTerm, max }) {
   console.log(searchTerm);
-  let url = "http://localhost:3000/events";
+  let url = "https://events-tanstack-project.onrender.com/events";
   if (searchTerm && max) {
     url += "?search=" + searchTerm + "&max=" + max;
   } else if (searchTerm) {
@@ -27,13 +27,16 @@ export async function fetchEvents({ signal, searchTerm, max }) {
 }
 
 export async function createNewEvent(eventData) {
-  const response = await fetch(`http://localhost:3000/events`, {
-    method: "POST",
-    body: JSON.stringify(eventData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `https://events-tanstack-project.onrender.com/events`,
+    {
+      method: "POST",
+      body: JSON.stringify(eventData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     const error = new Error("An error occurred while creating the event");
@@ -48,9 +51,12 @@ export async function createNewEvent(eventData) {
 }
 
 export async function fetchSelectableImages({ signal }) {
-  const response = await fetch(`http://localhost:3000/events/images`, {
-    signal,
-  });
+  const response = await fetch(
+    `https://events-tanstack-project.onrender.com/events/images`,
+    {
+      signal,
+    }
+  );
 
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the images");
@@ -65,9 +71,12 @@ export async function fetchSelectableImages({ signal }) {
 }
 
 export async function fetchEvent({ id, signal }) {
-  const response = await fetch(`http://localhost:3000/events/${id}`, {
-    signal,
-  });
+  const response = await fetch(
+    `https://events-tanstack-project.onrender.com/${id}`,
+    {
+      signal,
+    }
+  );
 
   if (!response.ok) {
     const error = new Error("An error occurred while fetching the event");
@@ -82,9 +91,12 @@ export async function fetchEvent({ id, signal }) {
 }
 
 export async function deleteEvent({ id }) {
-  const response = await fetch(`http://localhost:3000/events/${id}`, {
-    method: "DELETE",
-  });
+  const response = await fetch(
+    `https://events-tanstack-project.onrender.com/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
 
   if (!response.ok) {
     const error = new Error("An error occurred while deleting the event");
@@ -97,13 +109,16 @@ export async function deleteEvent({ id }) {
 }
 
 export async function updateEvent({ id, event }) {
-  const response = await fetch(`http://localhost:3000/events/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({ event }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `https://events-tanstack-project.onrender.com/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ event }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     const error = new Error("An error occurred while updating the event");
