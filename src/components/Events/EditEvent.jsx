@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchEvent, updateEvent } from "../../util/http.js";
+import { fetchEvent, queryClient, updateEvent } from "../../util/http.js";
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
@@ -17,6 +17,17 @@ export default function EditEvent() {
 
   const { mutate } = useMutation({
     mutationFn: updateEvent,
+    onMutate: async (data) => {
+      const newEvent = data.event;
+      await queryClient.cancelQueries({ queryKey: ["events", id] });
+
+      const prevEvent = queryClient.getQueryData(["events", id]);
+      queryClient.setQueryData(["events", id], newEvent);
+      return { prevEvent };
+    },
+    onError: (error, data, context) => {
+      queryClient.setQueryData(["events", id], context.prevEvent);
+    },
   });
 
   const navigate = useNavigate();
