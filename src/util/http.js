@@ -4,7 +4,7 @@ export const queryClient = new QueryClient();
 
 export async function fetchEvents({ signal, searchTerm, max }) {
   console.log(searchTerm);
-  let url = "https://events-tanstack-project.onrender.com/events";
+  let url = "https://node-events-backend.onrender.com/events";
   if (searchTerm && max) {
     url += "?search=" + searchTerm + "&max=" + max;
   } else if (searchTerm) {
@@ -28,7 +28,7 @@ export async function fetchEvents({ signal, searchTerm, max }) {
 
 export async function createNewEvent(eventData) {
   const response = await fetch(
-    `https://events-tanstack-project.onrender.com/events`,
+    `https://node-events-backend.onrender.com/events`,
     {
       method: "POST",
       body: JSON.stringify(eventData),
@@ -52,7 +52,7 @@ export async function createNewEvent(eventData) {
 
 export async function fetchSelectableImages({ signal }) {
   const response = await fetch(
-    `https://events-tanstack-project.onrender.com/events/images`,
+    `https://node-events-backend.onrender.com/events/images`,
     {
       signal,
     }
@@ -72,7 +72,7 @@ export async function fetchSelectableImages({ signal }) {
 
 export async function fetchEvent({ id, signal }) {
   const response = await fetch(
-    `https://events-tanstack-project.onrender.com/${id}`,
+    `https://node-events-backend.onrender.com/events/${id}`,
     {
       signal,
     }
@@ -92,7 +92,7 @@ export async function fetchEvent({ id, signal }) {
 
 export async function deleteEvent({ id }) {
   const response = await fetch(
-    `https://events-tanstack-project.onrender.com/${id}`,
+    `https://node-events-backend.onrender.com/events/${id}`,
     {
       method: "DELETE",
     }
@@ -110,7 +110,7 @@ export async function deleteEvent({ id }) {
 
 export async function updateEvent({ id, event }) {
   const response = await fetch(
-    `https://events-tanstack-project.onrender.com/${id}`,
+    `https://node-events-backend.onrender.com/events/${id}`,
     {
       method: "PUT",
       body: JSON.stringify({ event }),
