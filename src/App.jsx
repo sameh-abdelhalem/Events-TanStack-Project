@@ -39,7 +39,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: "/Events-TanStack-Project" }
+  { basename: "/Events-TanStack-Project/" }
 );
 
 function App() {
